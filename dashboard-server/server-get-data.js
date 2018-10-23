@@ -1,6 +1,10 @@
+const SERVER_PORT = 8080;
+
 let SerialPort = require('serialport');
 let express = require('express');
 let app = express();
+
+let data_from_arduino = 'no data';
 
 const Readline = SerialPort.parsers.Readline;
 
@@ -16,13 +20,13 @@ const onOpen = () => {
 
 const onData = (data) => {
 	//console.log('SERIAL PORT DATA');
-	console.log(data.toString('utf8'));
+	data_from_arduino = data.toString('utf8');
 };
 
 serial.on('open', onOpen);
 serial.on('data', onData);
 
-//Página inicial
+// //Página inicial
 app.get('/', function(req, res) {
 	res.status(200).send({
 		title: 'Dasboard Robotic Hand',
@@ -31,13 +35,21 @@ app.get('/', function(req, res) {
 });
 
 //Inicia o servidor
-app.listen(8080, () => {
-	console.log('Server ready on http://localhost:8080');
+app.listen(8000, () => {
+	console.log('Server ready on http://localhost:8000');
 });
 
-//Método responsável por escrever os dados no arduino
-// function moveFinger(n) {
-// 	const buff = Buffer(n.toString());
-// 	console.log('Buffer(n.toString())', JSON.stringify(buff));
-// 	serial.write(new Buffer(n.toString()));
-// }
+//SOCKET.IO
+let io = require('socket.io')();
+
+io.on('connection', (client) => {
+	client.on('subscribeToTimer', () => {
+		console.log('client is subscribing to data_from_arduino');
+		setInterval(() => {
+			client.emit('data_from_arduino', data_from_arduino);
+		}, 1000);
+	});
+});
+
+io.listen(SERVER_PORT);
+//SOCKET.IO
