@@ -14,17 +14,23 @@ let serial = new SerialPort('/dev/ttyACM0', {
 	parser: new Readline('/n')
 });
 
-const onOpen = () => {
-	console.log('Serial port open');
-};
 
 const onData = (data) => {
-	//console.log('SERIAL PORT DATA');
+    console.log('////////////////////////////////////////////SERIAL PORT DATA');
+	console.log(data.toString('utf8'));
 	data_from_arduino = data.toString('utf8');
 };
 
-serial.on('open', onOpen);
-serial.on('data', onData);
+/*serial.on('open', onOpen);
+serial.on('data', onData);*/
+
+serial.on('open', () => {
+    console.log('open')
+    serial.on('data', (data) => {
+        data_from_arduino = data.toString('utf8');
+        console.log('data', data.toString('utf8'));
+    })
+})
 
 // //Página inicial
 app.get('/', function(req, res) {

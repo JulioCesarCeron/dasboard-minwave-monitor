@@ -17,15 +17,26 @@ class App extends Component {
 		});
 	}
 
+	renderDataFromArduino() {
+
+        
+
+		return (
+			<div className="App-h1-center">
+				<h1>SINAL: {this.state.data} </h1>
+				<h1>ATENÇÃO: {this.state.data} </h1>
+				<h1>MEDITAÇÃO: {this.state.data} </h1>
+			</div>
+		);
+	}
+
 	render() {
 		return (
 			<div className="App">
 				<header className="App-header">
 					<h1>Dashboard Mindwave Mobile </h1>
 				</header>
-				<div className="App-h1-center">
-					<h1>{this.state.data} </h1>
-				</div>
+				{this.renderDataFromArduino()}
 			</div>
 		);
 	}
