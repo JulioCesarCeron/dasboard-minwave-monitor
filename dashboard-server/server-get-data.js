@@ -16,7 +16,7 @@ let serial = new SerialPort('/dev/ttyACM0', {
 
 
 const onData = (data) => {
-    console.log('////////////////////////////////////////////SERIAL PORT DATA');
+    console.log('/SERIAL PORT DATA');
 	console.log(data.toString('utf8'));
 	data_from_arduino = data.toString('utf8');
 };
@@ -28,7 +28,6 @@ serial.on('open', () => {
     console.log('open')
     serial.on('data', (data) => {
         data_from_arduino = data.toString('utf8');
-        console.log('data', data.toString('utf8'));
     })
 })
 
