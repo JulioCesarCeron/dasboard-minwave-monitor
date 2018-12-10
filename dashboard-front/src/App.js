@@ -171,17 +171,11 @@ class App extends Component {
 	refeshDataChart = (key, valuesY) => {
 		let data_chart = Object.assign(this.state.data);
 		valuesY.forEach((value, index) => {
-			console.log('index', index);
-			console.log('value', value);
-
 			let signal_data = data_chart[index];
 			signal_data.data.push({ x: key, y: value });
 			signal_data.data = this.verifyLength(signal_data.data, 10);
 			data_chart[index] = signal_data;
-			
-        });
-        console.log("RETORNO")
-		console.log('data_chart', data_chart);
+		});
 		return data_chart;
 	};
 
@@ -230,10 +224,7 @@ class App extends Component {
 			});
 		}
 
-        console.log('data_chart', data_chart);
 		if (data_chart.length === 3) {
-			console.log('data_chart', data_chart);
-			console.log('key', key);
 			this.refeshDataChart(key, data_chart);
 		}
 
